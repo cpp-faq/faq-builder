@@ -1,0 +1,8 @@
+{
+    "name" : "faq-builder's FAQ",
+    "version" : "1.0",
+    "sections" : [
+        "faq",
+        "test"
+    ]
+}
