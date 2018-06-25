@@ -1,4 +1,7 @@
 {
     "display-name": "Les tests",
-    "questions": []
+    "questions": [],
+    "sections": [
+        "simple-tests"
+    ]
 }

@@ -1,3 +1,8 @@
 {
-    "display-name" : "Pourquoi cette FAQ ?"
+    "display-name" : "Pourquoi cette FAQ ?",
+    "end-links" : [
+        "https://www.example.com"
+        "faq://index.md",
+        "q://comment-puis-je-contribuer"
+    ]
 }
