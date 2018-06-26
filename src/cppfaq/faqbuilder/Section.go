@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "io/ioutil"
-    //"encoding/json"
+    "encoding/json"
 )
 
 type SectionJsonObject struct {
@@ -18,7 +18,7 @@ type Section struct {
 }
 
 func NewSection(path string) (*Section, error) {
-    q := &Section{}
+    s := &Section{}
 
     // Read JSON
     file, e := ioutil.ReadFile(path)
@@ -28,7 +28,15 @@ func NewSection(path string) (*Section, error) {
 
     fmt.Printf("%s\n", string(file))
 
-    /** TODO **/
+    var secjson SectionJsonObject
 
-    return q, nil
+    err := json.Unmarshal(file, &secjson)
+
+    if(err != nil) {
+        return s, err
+    }
+
+    fmt.Printf("Results: %v\n", secjson)
+
+    return s, nil
 }

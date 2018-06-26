@@ -28,8 +28,6 @@ func NewFAQ(root_folder string) (*FAQ, error) {
         return nil, e // TODO => chain message.
     }
 
-    fmt.Printf("%s\n", string(file))
-
     var faqjson FAQJsonObject
 
     err := json.Unmarshal(file, &faqjson)
@@ -42,6 +40,8 @@ func NewFAQ(root_folder string) (*FAQ, error) {
 
     faq.Version = faqjson.Version
     faq.Name = faqjson.Name
+
+
 
     return faq, nil
 }

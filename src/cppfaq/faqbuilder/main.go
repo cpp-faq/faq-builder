@@ -29,7 +29,6 @@ func main() {
     }
 
     faq.Print()
-    fmt.Println("")
     // Process
     // faq.Process()
 
