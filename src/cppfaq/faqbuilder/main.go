@@ -11,8 +11,6 @@ func main() {
     folder := flag.String("root-folder", "", "the root folder of the FAQ files (should include at least the faq.json file).")
     flag.Parse()
 
-    fmt.Println("folder = " + *folder)
-
     if(*folder == "") {
         fmt.Println("error: root-folder unspecified.")
         os.Exit(1)
