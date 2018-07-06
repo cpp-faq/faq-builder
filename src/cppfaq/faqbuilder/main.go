@@ -26,7 +26,7 @@ func main() {
         os.Exit(1)
     }
 
-    faq.Print()
+    PrintAll(faq.ToStrings())
     // Process
     // faq.Process()
 

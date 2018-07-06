@@ -1,5 +1,9 @@
 package main
 
+import (
+    "fmt"
+)
+
 func JoinAll(prefix string, paths []string) ([]string) {
     ret := []string{}
 
@@ -8,4 +12,10 @@ func JoinAll(prefix string, paths []string) ([]string) {
     }
 
     return ret
+}
+
+func PrintAll(strs []string) {
+    for _, str := range strs {
+        fmt.Println(str)
+    }
 }

@@ -17,6 +17,7 @@ type FAQ struct {
     Version string
     Header string
     Sections []Section
+    Question []Question
     RootFolder string
 }
 
@@ -37,18 +38,32 @@ func NewFAQ(root_folder string) (*FAQ, error) {
 
     if(err != nil) {
         fmt.Printf("error : cannot parse file [" + path + "]")
-        return faq, err
+        return nil, err
     }
 
     faq.Version = faqjson.Version
     faq.Name = faqjson.Name
     faq.Sections, err = GetSection(JoinAll(root_folder, faqjson.Sections))
 
+    if(err != nil) {
+        return nil, err
+    }
+
     return faq, nil
 }
 
 
-func (faq *FAQ) Print() {
-    fmt.Println("name : " + faq.Name)
-    fmt.Println("version : " + faq.Version)
+func (faq *FAQ) ToStrings() []string {
+    ret := []string{}
+
+    ret = append(ret, "FAQ : " + faq.Name)
+    ret = append(ret, "version : " + faq.Version)
+    ret = append(ret, "root_folder : " + faq.RootFolder)
+
+    // Sections
+    for _, section := range faq.Sections {
+        ret = append(ret, JoinAll("   - ", section.ToStrings())...)
+    }
+
+    return ret
 }
