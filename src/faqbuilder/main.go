@@ -4,6 +4,9 @@ import (
     "fmt"
     "os"
     "flag"
+    //"faqbuilder/process"
+    "faqbuilder/util"
+    "faqbuilder/model"
 )
 
 func main() {
@@ -19,14 +22,15 @@ func main() {
     fmt.Printf("Faq Builder v1.0.\n");
 
     // Read FAQ.
-    faq, e := NewFAQ(*folder)
-
+    faq, e := model.NewFAQ(*folder)
     if e != nil {
         fmt.Println(e.Error())
         os.Exit(1)
     }
+    fmt.Println("FAQ parsed.")
 
-    PrintAll(faq.ToStrings())
+    util.PrintAll(faq.ToStrings())
+
     // Process
     // faq.Process()
 
