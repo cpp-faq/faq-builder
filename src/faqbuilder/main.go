@@ -3,37 +3,33 @@ package main
 import (
     "fmt"
     "os"
-    "flag"
     //"faqbuilder/process"
     "faqbuilder/util"
     "faqbuilder/model"
+    "faqbuilder/process"
 )
 
 func main() {
-    // Read args.
-    folder := flag.String("root-folder", "", "the root folder of the FAQ files (should include at least the faq.json file).")
-    flag.Parse()
 
-    if(*folder == "") {
-        fmt.Println("error: root-folder unspecified.")
+    params, e := util.ReadParams()
+
+    if(e != nil) {
+        fmt.Println(e.Error())
         os.Exit(1)
     }
 
     fmt.Printf("Faq Builder v1.0.\n");
 
     // Read FAQ.
-    faq, e := model.NewFAQ(*folder)
+    faq, e := model.NewFAQ(params.RootFolder)
     if e != nil {
         fmt.Println(e.Error())
-        os.Exit(1)
+        os.Exit(2)
     }
     fmt.Println("FAQ parsed.")
 
     util.PrintAll(faq.ToStrings())
 
-    // Process
-    // faq.Process()
-
-
-
+    process.Process(faq)
+    //build.Build(faq, params)
 }
