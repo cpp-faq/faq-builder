@@ -1,1 +1,1 @@
-./../bin/faqbuilder -root-folder="../tests/complete-test/en-EN/"
+./../bin/faqbuilder -root-folder="../tests/complete-test/en-EN/" -build-folder="../tests/complete-test-out/" -base-url="https://github.com/cpp-faq/cpp-faq"

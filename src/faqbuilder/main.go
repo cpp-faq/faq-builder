@@ -3,7 +3,6 @@ package main
 import (
     "fmt"
     "os"
-    //"faqbuilder/process"
     "faqbuilder/util"
     "faqbuilder/model"
     "faqbuilder/process"
@@ -30,6 +29,6 @@ func main() {
 
     util.PrintAll(faq.ToStrings())
 
-    process.Process(faq)
+    process.Process(faq, &params)
     //build.Build(faq, params)
 }
