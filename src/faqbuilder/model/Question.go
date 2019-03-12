@@ -5,24 +5,33 @@ import (
     "io/ioutil"
     "encoding/json"
     "path/filepath"
-    "faqbuilder/util"
+    //"faqbuilder/util"
 )
+
+type Link struct {
+    Description string`json:"descr"`
+    URL string`json:"url"`
+}
 
 type QuestionJsonObject struct {
     DisplayName string`json:"display-name"`
-    EndLinks []string`json:"end-links"`
+    EndLinks []Link`json:"end-links"`
 }
 
 type Question struct {
     Name string // Duplicate with map key.
     DisplayName string
     RootFolder string
-    EndLinks []string
+    EndLinks []Link
+
+    // After processing
+    LocalPath string
+    LocalFiles []string // List of local files to be copied
 }
 
 func ParseQuestion(path string) (Question, error) {
     q := Question{}
-    fmt.Println("test")
+
     q.RootFolder = filepath.Dir(path)
     q.Name = filepath.Base(path)
 
@@ -76,6 +85,8 @@ func (q *Question) ToStrings() []string {
     ret = append(ret, "  - display-name : " + q.DisplayName)
     ret = append(ret, "  - root-folder : " + q.RootFolder)
     ret = append(ret, "  - end-links : ")
-        ret = append(ret, util.JoinAll("      - ", q.EndLinks)...)
+    for _, link := range q.EndLinks {
+        ret = append(ret, "      - " + link.URL + "(" + link.Description + ")")
+    }
     return ret
 }

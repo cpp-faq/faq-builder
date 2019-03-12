@@ -1,8 +1,17 @@
 {
     "display-name" : "Pourquoi cette FAQ ?",
     "end-links" : [
-        "https://www.example.com",
-        "faq://index.md",
-        "q://comment-puis-je-contribuer"
+        {
+            "descr" : "[EN] example",
+            "url" : "https://www.example.com"
+        },
+        {
+            "descr" : "",
+            "url" : "faq://index.md"
+        },
+        {
+            "descr" : "",
+            "url" : "q://comment-puis-je-contribuer"
+        }
     ]
 }

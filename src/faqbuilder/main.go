@@ -5,12 +5,13 @@ import (
     "os"
     "faqbuilder/util"
     "faqbuilder/model"
-    "faqbuilder/process"
+    "faqbuilder/core"
 )
 
 func main() {
 
     params, e := util.ReadParams()
+    state := core.NewState(&params)
 
     if(e != nil) {
         fmt.Println(e.Error())
@@ -29,6 +30,7 @@ func main() {
 
     util.PrintAll(faq.ToStrings())
 
-    process.Process(faq, &params)
-    //build.Build(faq, params)
+    if !core.Build(faq, state) {
+        fmt.Println("error: error(s) occured, abording.")
+    }
 }

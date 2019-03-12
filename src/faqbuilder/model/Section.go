@@ -20,6 +20,10 @@ type Section struct {
     SubSections []Section
     RootFolder string
     Name string
+
+    // After processing
+    LocalPath string
+    LocalFiles []string // List of local files to be copied
 }
 
 func GetSections(paths []string, faq *FAQ) ([]Section, error) {
@@ -59,6 +63,7 @@ func NewSection(path string, faq *FAQ) (*Section, error) {
 
     s.SubSections, err = GetSections(util.JoinAll(s.RootFolder + "/", secjson.SubSections), faq)
     s.Questions = secjson.Questions
+    s.Name = secjson.DisplayName
 
     if(err != nil) {
         return nil, err

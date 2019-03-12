@@ -9,6 +9,10 @@ type Params struct {
     RootFolder string
     BuildFolder string
     BaseURL string
+
+    // Options
+    Verbose bool
+    WError bool
 }
 
 func ReadParams() (Params, error) {
