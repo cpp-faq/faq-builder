@@ -39,8 +39,8 @@ void foo();
 ```
 
 #### Liens et compléments
- - [cppreference.com – C++ attributes](https://en.cppreference.com/w/cpp/language/attributes).
- - [open-std.org | n2761 "General Attributes for C++](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf).
+ - **[EN]** [cppreference.com – C++ attributes](https://en.cppreference.com/w/cpp/language/attributes).
+ - **[EN]** [open-std.org | n2761 "General Attributes for C++](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf).
 
 ## Quels sont les attributs standards en C++ ?
 
@@ -60,5 +60,5 @@ Les attributs standards (à l'heure de **C++20**) sont au nombre de treize :
  - *(C++20)* ```[[expects]]```.
 
 #### Liens et compléments
- - [cppreference.com – C++ attributes](https://en.cppreference.com/w/cpp/language/attributes).
- - [open-std.org | n2761 "General Attributes for C++](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf).
+ - **[EN]** [cppreference.com – C++ attributes](https://en.cppreference.com/w/cpp/language/attributes).
+ - **[EN]** [open-std.org | n2761 "General Attributes for C++](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf).

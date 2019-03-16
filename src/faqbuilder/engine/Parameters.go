@@ -1,65 +1,81 @@
 package engine
 
 import (
-    "errors"
+    //"os"
     "flag"
-    "fmt"
 )
 
 
-type Verbosity int
+type Command int
 
 const (
-    Quiet Verbosity = iota
-    Normal
-    Verbose
+    Build Command = iota
+    Tool
+    Interactive
+    None
 )
 
 type Parameters struct {
-    // Required
-    RootFolder string
-    BuildFolder string
-    BaseURL string
+    Command Command
+    Tool *ToolParameters
+    Build *BuildParameters
 
-    // Options
+    // General
+    RootFolder string
     VerbosityLevel Verbosity // [0; 2]
     Werror bool
-    CleanOnError bool
-    ExitOnError bool
 }
 
-func ReadParameters() (Parameters, error) {
+func ReadParameters(engine *Engine) (Parameters) {
     params := Parameters{}
 
-    // Read args.
-    /*RootFolder := flag.String("root-folder", "", "the root folder of the FAQ files (should include at least the faq.json file).")*/
-    flag.StringVar(&params.RootFolder, "root-folder", "", "the root folder of the FAQ files (should include at least the faq.json file).")
-    flag.StringVar(&params.BuildFolder, "build-folder", "", "the output folder for the FAQ.")
-    flag.StringVar(&params.BaseURL, "base-url", "", "the root URL of the github project (used for absolute linking).")
+    // General parameters
+    flag.StringVar(&params.RootFolder, "root-folder", "", "the root folder of the FAQ files (should include at least the file 'faq.yaml').")
 
     var verboseOpt bool
     var quietOpt bool
 
     flag.BoolVar(&verboseOpt, "verbose", false, "Set the verbosity level to 'Verbose'. In this mode, all information are displayed. This option is exclusive with 'quiet'.")
     flag.BoolVar(&verboseOpt, "quiet", false, "Set the verbosity level to 'Quiet'. In this mode, only important information are displayed. This option is exclusive with 'verbose'.")
-    flag.BoolVar(&params.Werror, "Werror", false, "All warning about the FAQ building process will be treated as errors.")
-    flag.BoolVar(&params.CleanOnError, "clean-error", false, "Clean the build folder if an error occures.")
-    flag.BoolVar(&params.ExitOnError, "exit-on-error", true, "Stop the process if an error occures.")
-    flag.Parse()
+    flag.BoolVar(&params.Werror, "Werror", false, "All warning will be treated as errors.")
 
-    if(params.RootFolder == "") {
-        return params, errors.New("error: root-folder unspecified.")
+    flag.Parse()
+/*
+    // Handle command
+    validCmdStr := `valid commands :
+ - build: build the FAQ.
+ - tool: actions on the FAQ.
+ - interactive: interactive mode.
+ `
+
+    if(len(os.Args) < 2) {
+        engine.Fatal("fatal: no command specified.\n" + validCmdStr)
+        return params
     }
-    if(params.RootFolder == "") {
-        return params, errors.New("error: build-folder unspecified.")
+    switch os.Args[1] {
+    case "build":
+        params.Command = Build
+        //params.Build = ReadBuildParameters(engine)
+    case "tool":
+        params.Command = Tool
+        engine.Warning("'tool' command not yet available.")
+    case "interactive":
+        params.Command = Interactive
+        engine.Warning("'interactive' command not yet available.")
+    default:
+        params.Command = None
+        engine.Fatal("unknown command '" + os.Args[1] + "'.")
     }
-    if(params.BaseURL == "") {
-        return params, errors.New("error: base-url unspecified.")
+*/
+    // General checks
+    if(params.RootFolder == "") {
+        engine.Fatal("root-folder unspecified.")
+        return params
     }
 
     if verboseOpt {
         if quietOpt {
-            fmt.Println("warning: both 'quiet' and 'verbose' option specified. 'verbose' will be used.")
+            engine.Warning("both 'quiet' and 'verbose' option specified. 'verbose' will be used.")
         }
         params.VerbosityLevel = Verbose
     } else if quietOpt {
@@ -68,5 +84,5 @@ func ReadParameters() (Parameters, error) {
         params.VerbosityLevel = Normal
     }
 
-    return params, nil
+    return params
 }

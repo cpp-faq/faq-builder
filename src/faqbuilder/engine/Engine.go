@@ -9,7 +9,7 @@ import (
  */
 type Engine struct {
     Version string // Version of faq-builder.
-    Params *Parameters // User parameters.
+    Params Parameters // User parameters.
 
     // Storing messages instead of count could be useful.
     Warnings []string
@@ -17,11 +17,11 @@ type Engine struct {
     Fatals []string
 }
 
-func NewEngine(params *Parameters) *Engine {
+func NewEngine() (*Engine) {
     var engine Engine
 
     engine.Version = "1.0"
-    engine.Params = params
+    engine.Params = ReadParameters(&engine)
 
     return &engine
 }
@@ -68,5 +68,5 @@ func (this *Engine) Fatal(msg string) bool {
 }
 
 func (this *Engine) Abord() bool {
-    return len(this.Fatals) > 0 || (this.Params.ExitOnError && len(this.Errors) > 0)
+    return len(this.Fatals) > 0 || (this.Params.Build != nil && this.Params.Build.ExitOnError && len(this.Errors) > 0)
 }

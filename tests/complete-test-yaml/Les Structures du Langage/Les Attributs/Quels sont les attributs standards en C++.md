@@ -3,8 +3,12 @@ display-name: Quels sont les attributs standards en C++ ?
 end-links:
 - descr: cppreference.com – C++ attributes
   url: https://en.cppreference.com/w/cpp/language/attributes
+  options:
+    prefix: EN
 - descr: open-std.org | n2761 "General Attributes for C++
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf
+  options:
+    prefix: EN
 ---
 Les attributs standards (à l'heure de **C++20**) sont au nombre de treize :
 
