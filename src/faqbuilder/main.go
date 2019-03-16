@@ -1,36 +1,42 @@
 package main
 
 import (
-    "fmt"
     "os"
+    "strconv"
     "faqbuilder/util"
     "faqbuilder/model"
     "faqbuilder/core"
+    "faqbuilder/engine"
 )
 
 func main() {
 
-    params, e := util.ReadParams()
-    state := core.NewState(&params)
+    params, e := engine.ReadParameters()
+    engine := engine.NewEngine(&params)
 
-    if(e != nil) {
-        fmt.Println(e.Error())
+    if e != nil {
+        engine.Error(e.Error())
         os.Exit(1)
     }
 
-    fmt.Printf("Faq Builder v1.0.\n");
+    engine.Info("Faq Builder v" + engine.Version + ".\n");
 
     // Read FAQ.
-    faq, e := model.NewFAQ(params.RootFolder)
-    if e != nil {
-        fmt.Println(e.Error())
+    faq := model.NewFAQ(params.RootFolder, engine)
+
+    if engine.Abord() {
         os.Exit(2)
     }
-    fmt.Println("FAQ parsed.")
+
+    engine.Info("FAQ parsed.")
 
     util.PrintAll(faq.ToStrings())
 
-    if !core.Build(faq, state) {
-        fmt.Println("error: error(s) occured, abording.")
+    if !core.Build(faq, engine) {
+        
+        engine.Error(strconv.Itoa(len(engine.Errors)) + " error(s) occured, abording.")
+        os.Exit(3)
+    } else {
+        engine.Info("the FAQ has been successfully builded.")
     }
 }

@@ -1,0 +1,11 @@
+---
+display-name: Typage et variables
+questions: []
+sections:
+- Aliases de types
+- L'inférence de type
+- Les conversions
+- Les énumérations
+- Les littéraux
+- Les modificateurs const et volatile
+- Les types fondamentaux

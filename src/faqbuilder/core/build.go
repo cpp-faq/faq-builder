@@ -3,14 +3,11 @@ package core
 import (
     "faqbuilder/model"
     "faqbuilder/util"
-    "io/ioutil"
-    "fmt"
+    "faqbuilder/engine"
     "os"
     "path/filepath"
-    //"strings"
-    //"io/ioutil"
-    //"encoding/json"
-    //"path/filepath"
+    "net/url"
+    "io/ioutil"
 )
 
 /**
@@ -24,13 +21,25 @@ func GetRelativePath(completePath string, rootPath string) (string) {
     return completePath[len(rootPath):]
 }
 
-func ProcessQuestion(question *model.Question, state *State) (string, bool) {
-    ret := "## " + question.DisplayName + "\n\n"
-
-    content, err := ioutil.ReadFile(filepath.Join(question.RootFolder, question.Name + ".md"))
+func EncodeURL(str string, engine *engine.Engine) (string) {
+    Url, err := url.Parse(str)
     if err != nil {
-        fmt.Print(err)
-        return "", false
+        engine.Error("the string '" + str + "' cannot be encoded to HTTP URL.")
+        return str
+    }
+    return Url.String()
+}
+
+func ProcessQuestion(question *model.Question, engine *engine.Engine) (string) {
+    engine.Debug("    generating question : " + question.Name + "'.")
+
+    ret := "## " + question.DisplayName + "\n"
+
+    path := filepath.Join(question.RootFolder, question.Name + ".md")
+    content, err := util.ExtractContent(path)
+    if err != nil {
+        engine.Warning("unable to find '" + path + "', the question '" + question.DisplayName + "' is empty.")
+        return ""
     }
 
     ret += string(content)
@@ -40,63 +49,90 @@ func ProcessQuestion(question *model.Question, state *State) (string, bool) {
         ret += "\n#### Liens et compléments\n"
         for _, link := range question.EndLinks {
             // TODO() if q:// / faq:// process and replace, else display warning if no descr
-            ret += " - [" + link.URL + "](" + link.Description + ").\n"
+            ret += " - [" + link.Description + "](" + link.URL + ").\n"
         }
     }
 
-    return ret, true
+    return ret
 }
 
+func BuildSection(faq *model.FAQ, section *model.Section, engine *engine.Engine) {
+    engine.Debug("  generating section : " + section.Name + "'.")
 
-
-func BuildSection(faq *model.FAQ, section *model.Section, state *State) (bool) {
     // Build header
-    content := "# " + section.Name + "\n\n"
+    content := "# " + section.Name + "\n"
 
-    mdcontent, err := ioutil.ReadFile(filepath.Join(section.RootFolder, "index.md"))
-    if err == nil {
-        content += string(mdcontent) + "\n"
+    mdcontent, err := util.ExtractContent(filepath.Join(section.RootFolder, "index.md"))
+    if err != nil && engine.Error("cannot read section content: " + err.Error() + ".") {
+        return
     }
 
-    content += "### Sommaire\n\n"
+    content += mdcontent
+
+    content += "\n### Sommaire\n\n"
 
     questionsContent := ""
+
+    // Build sub-sections.
+
+    for _, subsection := range section.SubSections {
+        // Summary
+        content += " - **[" + subsection.Name + "](" + EncodeURL(subsection.Name + "/README.md", engine) + ")**.\n"
+
+        BuildSection(faq, &subsection, engine)
+        if engine.Abord() {
+            return
+        }
+    }
 
     // Build questions
     for _, name := range section.Questions {
         if question, found := faq.Questions[name]; found {
             // Summary
-            content += " - [" + question.DisplayName + "](#" + util.EncodeURL(question.DisplayName) + ").\n"
+            content += " - [" + question.DisplayName + "](#" + EncodeURL(question.DisplayName, engine) + ").\n"
 
             // Question content
-            res, err := ProcessQuestion(&question, state)
-            if !err {
-                return false
+            res := ProcessQuestion(&question, engine)
+            if engine.Abord() {
+                return
             }
             questionsContent += "\n" + res
 
         } else {
-            fmt.Println("error: question '" + name + "' does not exist.")
+            engine.Error("question '" + name + "' does not exist.")
+            continue;
         }
     }
 
     content += questionsContent
 
-    fmt.Println("Section : \n" + content)
-
     // Save
-    os.MkdirAll(filepath.Join(state.Params.BuildFolder, GetRelativePath(section.RootFolder, faq.RootFolder)), os.ModePerm)
+    dir := filepath.Join(engine.Params.BuildFolder, GetRelativePath(section.RootFolder, faq.RootFolder))
+    os.MkdirAll(dir, os.ModePerm)
 
-    return true
+    err = ioutil.WriteFile(filepath.Join(dir + "/README.md"), []byte(content), 0644)
+    if err != nil && engine.Error("cannot save section '" + section.Name + "': " + err.Error() + ".") {
+        return
+    }
+
+    // Copy resources folder, if exist
+
+    resdir := filepath.Join(section.RootFolder, "res/")
+
+    if b, _ := util.ExistDir(resdir); b {
+        err := util.CopyDir(resdir, filepath.Join(dir, "/res/"))
+        if err != nil && engine.Error("cannot copy ressources directory for section '" + section.Name + "': " + err.Error() + ".") {
+            return
+        }
+    }
 }
 
-func Build(faq *model.FAQ, state *State) (bool) {
-    fmt.Println("Building FAQ...")
-    fmt.Println(" - root_folder:  " + state.Params.RootFolder)
-    fmt.Println(" - build_folder: " + state.Params.BuildFolder)
+func Build(faq *model.FAQ, engine *engine.Engine) (bool) {
+    engine.Info("building FAQ...")
 
     for _, section := range faq.Sections {
-        if !BuildSection(faq, &section, state) {
+        BuildSection(faq, &section, engine)
+        if engine.Abord() {
             return false
         }
     }

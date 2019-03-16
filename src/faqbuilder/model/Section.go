@@ -1,18 +1,16 @@
 package model
 
 import (
-    "fmt"
-    "io/ioutil"
-    "encoding/json"
-    "errors"
+    "gopkg.in/yaml.v2"
     "strconv"
     "faqbuilder/util"
+    "faqbuilder/engine"
 )
 
-type SectionJsonObject struct {
-    DisplayName string`json:"display-name"`
-    Questions []string`json:"questions"`
-    SubSections []string`json:"sections"`
+type SectionSerializer struct {
+    DisplayName string`yaml:"display-name" json:"display-name"`
+    Questions []string`yaml:"questions" json:"questions"`
+    SubSections []string`yaml:"sections" json:"sections"`
 }
 
 type Section struct {
@@ -26,63 +24,59 @@ type Section struct {
     LocalFiles []string // List of local files to be copied
 }
 
-func GetSections(paths []string, faq *FAQ) ([]Section, error) {
+func GetSections(paths []string, faq *FAQ, engine *engine.Engine) ([]Section) {
     sections := []Section{};
 
     for _, path := range paths {
-        sec, err := NewSection(path, faq)
-        if(err != nil) {
-            return sections, err
+        sec := NewSection(path, faq, engine)
+        if engine.Abord() {
+            return sections
         }
         sections = append(sections, *sec)
     }
 
-    return sections, nil
+    return sections
 }
 
-func NewSection(path string, faq *FAQ) (*Section, error) {
+func NewSection(path string, faq *FAQ, engine *engine.Engine) (*Section) {
     s := &Section{}
 
     s.RootFolder = path
-    path = path + "/index.json"
 
-    // Read JSON
-    file, e := ioutil.ReadFile(path)
-    if( e != nil) {
-        fmt.Printf("error : cannot find section [" + path + "]\n")
-        return nil, e // TODO => chain message.
+    // Read file
+    header, e := util.ExtractHeader(path + "/index.md")
+    if e != nil && engine.Error("cannot parse section: " + e.Error() + ".\n") {
+        return nil
     }
 
-    var secjson SectionJsonObject
+    var secser SectionSerializer
 
-    err := json.Unmarshal(file, &secjson)
+    err := yaml.Unmarshal([]byte(header), &secser)
 
-    if(err != nil) {
-        return s, err
+    if err != nil && engine.Error("cannot parse section : " + err.Error() + ".") {
+        return s
     }
 
-    s.SubSections, err = GetSections(util.JoinAll(s.RootFolder + "/", secjson.SubSections), faq)
-    s.Questions = secjson.Questions
-    s.Name = secjson.DisplayName
+    s.SubSections = GetSections(util.JoinAll(s.RootFolder + "/", secser.SubSections), faq, engine)
+    s.Questions = secser.Questions
+    s.Name = secser.DisplayName
 
-    if(err != nil) {
-        return nil, err
+    if engine.Abord() {
+        return s
     }
 
     for _, qstr := range s.Questions {
-        var q Question
+        q := ParseQuestion(s.RootFolder + "/" + qstr, engine)
 
-        q, err = ParseQuestion(s.RootFolder + "/" + qstr)
-
-        if(err != nil) {
-            return nil, err
+        if engine.Abord() {
+            return s
         }
-        if b := faq.AddQuestion(q); !b {
-            return nil, errors.New("error [Section '" + s.Name + "']: question '" + qstr + "' already defined.")
+        if b := faq.AddQuestion(q); !b && engine.Error("duplicate question : " + q.Name + " in section '" + s.Name + "'.") {
+            return s
         }
     }
 
-    return s, nil
+    return s
 }
 
 

@@ -1,14 +1,14 @@
 package model
 
 import (
-    "fmt"
     "io/ioutil"
-    "encoding/json"
+    "gopkg.in/yaml.v2"
     "strconv"
     "faqbuilder/util"
+    "faqbuilder/engine"
 )
 
-type FAQJsonObject struct {
+type FAQSerializer struct {
     Name string
     Version string
     Sections []string
@@ -18,43 +18,44 @@ type FAQ struct {
     Name string
     Version string
     Header string
+    RootFolder string
+
     Sections []Section
     Questions map[string]Question
-    RootFolder string
 }
 
-func NewFAQ(root_folder string) (*FAQ, error) {
+func NewFAQ(root_folder string, engine *engine.Engine) (*FAQ) {
     faq := &FAQ{}
 
-    path := root_folder + "/faq.json"
+    path := root_folder + "/faq.yaml"
 
     faq.RootFolder = root_folder
     faq.Questions = make(map[string]Question)
 
-    // Read JSON
+    // Read file
     file, e := ioutil.ReadFile(path)
-    if( e != nil) {
-        return nil, e // TODO => chain message.
+    if e != nil && engine.Error("cannot find index file: " + e.Error() + ".") {
+        return nil
     }
 
-    var faqjson FAQJsonObject
+    var faqser FAQSerializer
 
-    err := json.Unmarshal(file, &faqjson)
+    err := yaml.Unmarshal(file, &faqser)
 
-    if(err != nil) {
-        fmt.Printf("error : cannot parse file [" + path + "]")
-        return nil, err
+
+    if err != nil &&  engine.Error("cannot parse index file: " + e.Error() + ".") {
+        return nil
     }
 
-    faq.Version = faqjson.Version
-    faq.Name = faqjson.Name
-    faq.Sections, err = GetSections(util.JoinAll(root_folder, faqjson.Sections), faq)
+    faq.Version = faqser.Version
+    faq.Name = faqser.Name
+    faq.Sections = GetSections(util.JoinAll(root_folder, faqser.Sections), faq, engine)
 
-    if(err != nil) {
-        return nil, err
+    if engine.Abord() {
+        return nil
     }
 
-    return faq, nil
+    return faq
 }
 
 func (faq *FAQ) AddQuestion(q Question) bool {
@@ -62,6 +63,7 @@ func (faq *FAQ) AddQuestion(q Question) bool {
         return false
     }
     faq.Questions[q.Name] = q
+
     return true
 }
 

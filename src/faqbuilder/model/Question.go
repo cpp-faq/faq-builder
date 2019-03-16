@@ -1,21 +1,21 @@
 package model
 
 import (
-    "fmt"
-    "io/ioutil"
-    "encoding/json"
+    "gopkg.in/yaml.v2"
+    //"encoding/json"
     "path/filepath"
-    //"faqbuilder/util"
+    "faqbuilder/util"
+    "faqbuilder/engine"
 )
 
 type Link struct {
-    Description string`json:"descr"`
-    URL string`json:"url"`
+    Description string`yaml:"descr"` //`json:"descr"`
+    URL string`yaml:"url"` //`json:"url"`
 }
 
-type QuestionJsonObject struct {
-    DisplayName string`json:"display-name"`
-    EndLinks []Link`json:"end-links"`
+type QuestionSerializer struct {
+    DisplayName string`yaml:"display-name"` //`json:"display-name"`
+    EndLinks []Link`yaml:"end-links"` //`json:"end-links"`
 }
 
 type Question struct {
@@ -29,53 +29,30 @@ type Question struct {
     LocalFiles []string // List of local files to be copied
 }
 
-func ParseQuestion(path string) (Question, error) {
+func ParseQuestion(path string, engine *engine.Engine) (Question) {
     q := Question{}
 
     q.RootFolder = filepath.Dir(path)
     q.Name = filepath.Base(path)
 
     // Read JSON
-    file, e := ioutil.ReadFile(path + ".json")
-    if( e != nil) {
-        fmt.Printf("error : cannot find question [" + path + "]\n")
-        return q, e // TODO => chain message.
+    header, e := util.ExtractHeader(path + ".md")
+    if( e != nil && engine.Error("cannot parse question: " + e.Error() + ".")) {
+        return q
     }
 
-    var qjson QuestionJsonObject
+    var quser QuestionSerializer
 
-    fmt.Println("file : " + string(file))
+    err := yaml.Unmarshal([]byte(header), &quser)
 
-    err := json.Unmarshal(file, &qjson)
-
-    if(err != nil) {
-        return q, err
+    if(err != nil && engine.Error("cannot parse question: " + e.Error() + ".")) {
+        return q
     }
 
-    fmt.Printf("Results: %v\n", qjson)
+    q.DisplayName = quser.DisplayName
+    q.EndLinks = quser.EndLinks
 
-    q.DisplayName = qjson.DisplayName
-    q.EndLinks = qjson.EndLinks
-
-    /*s.SubSections, err = GetSections(JoinAll(s.RootFolder + "/", secjson.SubSections), faq)
-    s.Questions = secjson.Questions
-
-    if(err != nil) {
-        return nil, err
-    }
-
-    for _, qstr := range s.Questions {
-        var q *Question
-
-        q, err = NewQuestion(s.RootFolder + "/" + qstr)
-
-        if(err != nil) {
-            return nil, err
-        }
-        faq.AddQuestion(q)
-    }*/
-
-    return q, nil
+    return q
 }
 
 func (q *Question) ToStrings() []string {
