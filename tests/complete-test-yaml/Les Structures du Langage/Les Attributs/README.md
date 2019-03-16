@@ -87,7 +87,7 @@ Il est possible de spécifier une liste d'attributs dans une même déclaration 
 int foo();
 ```
 
-## Pourquoi using namespace s'applique pas aux attributs ?
+## Pourquoi using namespace ne s'applique pas aux attributs ?
 
 Les espaces de noms d'attributs (*attribute-namespace*) sont distincts des espaces de nom habituels et donc la directive ```using namespace``` ne s'applique pas aux attributs.
 

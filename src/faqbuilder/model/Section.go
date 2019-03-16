@@ -7,10 +7,15 @@ import (
     "faqbuilder/engine"
 )
 
+type SectionOptions struct {
+}
+
 type SectionSerializer struct {
-    DisplayName string`yaml:"display-name" json:"display-name"`
-    Questions []string`yaml:"questions" json:"questions"`
-    SubSections []string`yaml:"sections" json:"sections"`
+    DisplayName string`yaml:"display-name"`
+    Questions []string`yaml:"questions"`
+    SubSections []string`yaml:"sections"`
+
+    Options SectionOptions`yaml:"options"`
 }
 
 type Section struct {
@@ -19,9 +24,7 @@ type Section struct {
     RootFolder string
     Name string
 
-    // After processing
-    LocalPath string
-    LocalFiles []string // List of local files to be copied
+    Options SectionOptions
 }
 
 func GetSections(paths []string, faq *FAQ, engine *engine.Engine) ([]Section) {
@@ -60,6 +63,7 @@ func NewSection(path string, faq *FAQ, engine *engine.Engine) (*Section) {
     s.SubSections = GetSections(util.JoinAll(s.RootFolder + "/", secser.SubSections), faq, engine)
     s.Questions = secser.Questions
     s.Name = secser.DisplayName
+    s.Options = secser.Options
 
     if engine.Abord() {
         return s

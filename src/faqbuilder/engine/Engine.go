@@ -17,11 +17,11 @@ type Engine struct {
     Fatals []string
 }
 
-func NewEngine(params *Parameters) *Engine {
+func NewEngine() *Engine {
     var engine Engine
 
     engine.Version = "1.0"
-    engine.Params = params
+    engine.Params = ReadParameters(&engine)
 
     return &engine
 }

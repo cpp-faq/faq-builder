@@ -11,18 +11,16 @@ import (
 
 func main() {
 
-    params, e := engine.ReadParameters()
-    engine := engine.NewEngine(&params)
+    engine := engine.NewEngine()
 
-    if e != nil {
-        engine.Error(e.Error())
+    if engine.Abord() {
         os.Exit(1)
     }
 
     engine.Info("Faq Builder v" + engine.Version + ".\n");
 
     // Read FAQ.
-    faq := model.NewFAQ(params.RootFolder, engine)
+    faq := model.NewFAQ(engine.Params.RootFolder, engine)
 
     if engine.Abord() {
         os.Exit(2)
@@ -33,7 +31,7 @@ func main() {
     util.PrintAll(faq.ToStrings())
 
     if !core.Build(faq, engine) {
-        
+
         engine.Error(strconv.Itoa(len(engine.Errors)) + " error(s) occured, abording.")
         os.Exit(3)
     } else {

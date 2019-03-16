@@ -8,14 +8,25 @@ import (
     "faqbuilder/engine"
 )
 
+type QuestionOptions struct {
+}
+
+type LinkOptions struct {
+    Prefix string`yaml:"prefix" json:"prefix"`
+}
+
 type Link struct {
-    Description string`yaml:"descr"` //`json:"descr"`
-    URL string`yaml:"url"` //`json:"url"`
+    Description string`yaml:"descr"`
+    URL string`yaml:"url"`
+
+    Options LinkOptions`yaml:"options" json:"options"`
 }
 
 type QuestionSerializer struct {
-    DisplayName string`yaml:"display-name"` //`json:"display-name"`
-    EndLinks []Link`yaml:"end-links"` //`json:"end-links"`
+    DisplayName string`yaml:"display-name"`
+    EndLinks []Link`yaml:"end-links"`
+
+    Options QuestionOptions`yaml:"options" json:"options"`
 }
 
 type Question struct {
@@ -24,9 +35,7 @@ type Question struct {
     RootFolder string
     EndLinks []Link
 
-    // After processing
-    LocalPath string
-    LocalFiles []string // List of local files to be copied
+    Options QuestionOptions
 }
 
 func ParseQuestion(path string, engine *engine.Engine) (Question) {
@@ -51,6 +60,7 @@ func ParseQuestion(path string, engine *engine.Engine) (Question) {
 
     q.DisplayName = quser.DisplayName
     q.EndLinks = quser.EndLinks
+    q.Options = quser.Options
 
     return q
 }

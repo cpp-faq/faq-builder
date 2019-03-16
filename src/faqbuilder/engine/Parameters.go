@@ -1,9 +1,7 @@
 package engine
 
 import (
-    "errors"
     "flag"
-    "fmt"
 )
 
 
@@ -28,7 +26,7 @@ type Parameters struct {
     ExitOnError bool
 }
 
-func ReadParameters() (Parameters, error) {
+func ReadParameters(engine *Engine) (*Parameters) {
     params := Parameters{}
 
     // Read args.
@@ -48,18 +46,21 @@ func ReadParameters() (Parameters, error) {
     flag.Parse()
 
     if(params.RootFolder == "") {
-        return params, errors.New("error: root-folder unspecified.")
+        engine.Fatal("root-folder unspecified.")
+        return &params
     }
     if(params.RootFolder == "") {
-        return params, errors.New("error: build-folder unspecified.")
+        engine.Fatal("build-folder unspecified.")
+        return &params
     }
     if(params.BaseURL == "") {
-        return params, errors.New("error: base-url unspecified.")
+        engine.Fatal("base-url unspecified.")
+        return &params
     }
 
     if verboseOpt {
         if quietOpt {
-            fmt.Println("warning: both 'quiet' and 'verbose' option specified. 'verbose' will be used.")
+            engine.Warning("both 'quiet' and 'verbose' option specified. 'verbose' will be used.")
         }
         params.VerbosityLevel = Verbose
     } else if quietOpt {
@@ -68,5 +69,5 @@ func ReadParameters() (Parameters, error) {
         params.VerbosityLevel = Normal
     }
 
-    return params, nil
+    return &params
 }

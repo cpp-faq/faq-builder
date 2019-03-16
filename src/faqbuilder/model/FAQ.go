@@ -8,10 +8,17 @@ import (
     "faqbuilder/engine"
 )
 
+type FAQOptions struct {
+
+}
+
 type FAQSerializer struct {
     Name string
     Version string
+    Language string
     Sections []string
+
+    Options FAQOptions`yaml:"options"`
 }
 
 type FAQ struct {
@@ -19,6 +26,8 @@ type FAQ struct {
     Version string
     Header string
     RootFolder string
+
+    Options FAQOptions
 
     Sections []Section
     Questions map[string]Question
@@ -50,6 +59,7 @@ func NewFAQ(root_folder string, engine *engine.Engine) (*FAQ) {
     faq.Version = faqser.Version
     faq.Name = faqser.Name
     faq.Sections = GetSections(util.JoinAll(root_folder, faqser.Sections), faq, engine)
+    faq.Options = faqser.Options
 
     if engine.Abord() {
         return nil
