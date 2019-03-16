@@ -1,1 +1,1 @@
-./../bin/faqbuilder -verbose -root-folder="../tests/complete-test-yaml/" -build-folder="../tests/complete-test-out/" -base-url="https://github.com/cpp-faq/cpp-faq"
+./../bin/faqbuilder build -verbose --root-folder="../tests/complete-test-yaml/" -build-folder="../tests/complete-test-out/" -base-url="https://github.com/cpp-faq/cpp-faq"
