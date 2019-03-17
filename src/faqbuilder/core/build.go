@@ -98,7 +98,7 @@ func BuildSection(faq *model.FAQ, section *model.Section, engine *engine.Engine)
     for _, name := range section.Questions {
         if question, found := faq.Questions[name]; found {
             // Summary
-            content += " - [" + question.DisplayName + "](#" + EncodeURL(question.DisplayName, engine) + ").\n"
+            content += " - [" + question.DisplayName + "](#" + EncodeURL(question.Name, engine) + ").\n"
 
             // Question content
             res := ProcessQuestion(&question, engine)
@@ -126,7 +126,7 @@ func BuildSection(faq *model.FAQ, section *model.Section, engine *engine.Engine)
 
     // Copy resources folder, if exist
 
-    resdir := filepath.Join(section.RootFolder, "res/")
+    resdir := filepath.Join(section.RootFolder, "rsc/")
 
     if b, _ := util.ExistDir(resdir); b {
         err := util.CopyDir(resdir, filepath.Join(dir, "/res/"))

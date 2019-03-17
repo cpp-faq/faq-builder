@@ -1,22 +1,22 @@
-# Les Structures de base
+# Les Attributs
 
 ### Sommaire
 
- - [Qu'est-ce qu'un attribut ?](#Qu%27est-ce%20qu%27un%20attribut%20?).
- - [Quels sont les attributs standards en C++ ?](#Quels%20sont%20les%20attributs%20standards%20en%20C++%20?).
- - [Comment déclarer plusieurs attributs en même temps ?](#Comment%20d%C3%A9clarer%20plusieurs%20attributs%20en%20m%C3%AAme%20temps%20?).
- - [Les attributs sont-ils hérités ?](#Les%20attributs%20sont-ils%20h%C3%A9rit%C3%A9s%20?).
- - [Pourquoi using namespace ne s'applique pas aux attributs ?](#Pourquoi%20using%20namespace%20ne%20s%27applique%20pas%20aux%20attributs%20?).
- - [A quoi correspond l'attribut [[noreturn]] ?](#A%20quoi%20correspond%20l%27attribut%20%5B%5Bnoreturn%5D%5D%20?).
- - [Qu'est-ce qu'un attribut ?](#Qu%27est-ce%20qu%27un%20attribut%20?).
- - [A quoi correspond l'attribut [[deprecated]] ?](#A%20quoi%20correspond%20l%27attribut%20%5B%5Bdeprecated%5D%5D%20?).
- - [A quoi correspond l'attribut [[fallthrough]] ?](#A%20quoi%20correspond%20l%27attribut%20%5B%5Bfallthrough%5D%5D%20?).
- - [A quoi correspond l'attribut [[nodiscard]] ?](#A%20quoi%20correspond%20l%27attribut%20%5B%5Bnodiscard%5D%5D%20?).
- - [A quoi correspond l'attribut [[maybe_unused]] ?](#A%20quoi%20correspond%20l%27attribut%20%5B%5Bmaybe_unused%5D%5D%20?).
- - [A quoi correspondent les attributs [[likely]] et [[unlikely]] ?](#A%20quoi%20correspondent%20les%20attributs%20%5B%5Blikely%5D%5D%20et%20%5B%5Bunlikely%5D%5D%20?).
- - [A quoi correspond l'attribut [[no_unique_address]] ?](#A%20quoi%20correspond%20l%27attribut%20%5B%5Bno_unique_address%5D%5D%20?).
- - [A quoi correspond l'attribut [[assert]] ?](#A%20quoi%20correspond%20l%27attribut%20%5B%5Bassert%5D%5D%20?).
- - [A quoi correspondent les attributs [[expects]] et [[ensures]] ?](#A%20quoi%20correspondent%20les%20attributs%20%5B%5Bexpects%5D%5D%20et%20%5B%5Bensures%5D%5D%20?).
+ - [Qu'est-ce qu'un attribut ?](#Qu%27est-ce%20qu%27un%20attribut).
+ - [Quels sont les attributs standards en C++ ?](#Quels%20sont%20les%20attributs%20standards%20en%20C++).
+ - [Comment déclarer plusieurs attributs en même temps ?](#Comment%20d%C3%A9clarer%20plusieurs%20attributs%20en%20m%C3%AAme%20temps).
+ - [Les attributs sont-ils hérités ?](#Les%20attributs%20sont-ils%20h%C3%A9rit%C3%A9s).
+ - [Pourquoi using namespace ne s'applique pas aux attributs ?](#Pourquoi%20using%20namespace%20s%27applique%20pas%20aux%20attributs).
+ - [A quoi correspond l'attribut [[noreturn]] ?](#A%20quoi%20correspond%20l%27attribut%20noreturn).
+ - [Qu'est-ce qu'un attribut ?](#A%20quoi%20correspond%20l%27attribut%20carries_dependency).
+ - [A quoi correspond l'attribut [[deprecated]] ?](#A%20quoi%20correspond%20l%27attribut%20deprecated).
+ - [A quoi correspond l'attribut [[fallthrough]] ?](#A%20quoi%20correspond%20l%27attribut%20fallthrough).
+ - [A quoi correspond l'attribut [[nodiscard]] ?](#A%20quoi%20correspond%20l%27attribut%20nodiscard).
+ - [A quoi correspond l'attribut [[maybe_unused]] ?](#A%20quoi%20correspond%20l%27attribut%20maybe_unused).
+ - [A quoi correspondent les attributs [[likely]] et [[unlikely]] ?](#A%20quoi%20correspondent%20les%20attributs%20likely%20et%20unlikely).
+ - [A quoi correspond l'attribut [[no_unique_address]] ?](#A%20quoi%20correspond%20l%27attribut%20no_unique_address).
+ - [A quoi correspond l'attribut [[assert]] ?](#A%20quoi%20correspond%20l%27attribut%20assert).
+ - [A quoi correspondent les attributs [[expects]] et [[ensures]] ?](#A%20quoi%20correspondent%20les%20attributs%20expects%20et%20ensure).
 
 ## Qu'est-ce qu'un attribut ?
 

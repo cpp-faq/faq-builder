@@ -3,4 +3,5 @@ name: faq-builder's FAQ
 version: '1.0'
 language: frFR
 sections:
+- Le Langage C++
 - Les Structures du Langage

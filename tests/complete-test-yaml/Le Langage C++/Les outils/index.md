@@ -1,7 +1,8 @@
 ---
-display-name: Les Structures du Langage
+display-name: Les outils
 questions: []
 sections:
-- Les Attributs
+- Les compilateurs
+- Les IDEs
 ---
 **En cours de rédaction.**

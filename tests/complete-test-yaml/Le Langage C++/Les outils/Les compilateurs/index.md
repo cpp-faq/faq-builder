@@ -1,7 +1,6 @@
 ---
-display-name: Les Structures du Langage
+display-name: Les compilateurs
 questions: []
 sections:
-- Les Attributs
 ---
 **En cours de rédaction.**
