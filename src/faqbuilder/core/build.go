@@ -44,6 +44,7 @@ func ProcessQuestion(question *model.Question, engine *engine.Engine) (string) {
 
     ret := "## " + question.DisplayName
 
+    // Since & Until
     if question.Options.SinceLanguageVersion != "" {
         ret += "\n   ![#c5f015](https://placehold.it/15/c5f015/000000?text=+) depuis **" + question.Options.SinceLanguageVersion + "**\n"
     }
