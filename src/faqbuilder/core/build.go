@@ -30,6 +30,15 @@ func EncodeURL(str string, engine *engine.Engine) (string) {
     return Url.String()
 }
 
+func ProcessEndLink(link model.Link) (string) {
+    ret := ""
+
+    if link.Options.Prefix != "" {
+        ret += "**[" + link.Options.Prefix + "]** "
+    }
+    return ret + "[" + link.Description + "](" + link.URL + ")"
+}
+
 func ProcessQuestion(question *model.Question, engine *engine.Engine) (string) {
     engine.Debug("    generating question : " + question.Name + "'.")
 
@@ -49,7 +58,7 @@ func ProcessQuestion(question *model.Question, engine *engine.Engine) (string) {
         ret += "\n#### Liens et compléments\n"
         for _, link := range question.EndLinks {
             // TODO() if q:// / faq:// process and replace, else display warning if no descr
-            ret += " - [" + link.Description + "](" + link.URL + ").\n"
+            ret += " - " + ProcessEndLink(link) + ".\n"
         }
     }
 
@@ -77,7 +86,7 @@ func BuildSection(faq *model.FAQ, section *model.Section, engine *engine.Engine)
 
     for _, subsection := range section.SubSections {
         // Summary
-        content += " - **[" + subsection.Name + "](" + EncodeURL(subsection.Name + "/README.md", engine) + ")**.\n"
+        content += " - **[Section] [" + subsection.Name + "](" + EncodeURL(subsection.Name + "/README.md", engine) + ")**.\n"
 
         BuildSection(faq, &subsection, engine)
         if engine.Abord() {

@@ -1,11 +1,11 @@
 ---
 display-name: A quoi correspond l'attribut [[noreturn]] ?
 end-links:
-- descr: cppreference.com – C++ attribute: noreturn
+- descr: "cppreference.com – C++ attribute: noreturn"
   url: https://en.cppreference.com/w/cpp/language/attributes
   options:
     prefix: EN
-- descr: open-std.org | n2761 "General Attributes for C++
+- descr: open-std.org | n2761 'General Attributes for C++'
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf
   options:
     prefix: EN

@@ -45,16 +45,16 @@ func ParseQuestion(path string, engine *engine.Engine) (Question) {
     q.Name = filepath.Base(path)
 
     // Read JSON
-    header, e := util.ExtractHeader(path + ".md")
-    if( e != nil && engine.Error("cannot parse question: " + e.Error() + ".")) {
+    header, err := util.ExtractHeader(path + ".md")
+    if( err != nil && engine.Error("cannot parse question '" + q.Name  + "': " + err.Error() + ".")) {
         return q
     }
 
     var quser QuestionSerializer
 
-    err := yaml.Unmarshal([]byte(header), &quser)
+    err = yaml.Unmarshal([]byte(header), &quser)
 
-    if(err != nil && engine.Error("cannot parse question: " + e.Error() + ".")) {
+    if(err != nil && engine.Error("cannot parse question '" + q.Name  + "': " + err.Error() + ".")) {
         return q
     }
 
