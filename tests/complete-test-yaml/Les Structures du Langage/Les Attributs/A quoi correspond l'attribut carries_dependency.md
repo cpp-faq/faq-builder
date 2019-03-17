@@ -13,6 +13,8 @@ end-links:
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf
   options:
     prefix: EN
+options:
+  since: C++11
 ---
 L'attribut ```[[carries_dependency]]``` introduit avec **C++11**, permet d'indiquer qu'une chaîne de dépendance se propage à l'intérieur ou à l'extérieur d'une fonction (avec un ```std::memory_order``` **release** ou **consume**) et qu'il est donc possible d'éviter des barrières inutiles.
 

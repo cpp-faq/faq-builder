@@ -9,6 +9,8 @@ end-links:
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf
   options:
     prefix: EN
+options:
+  since: C++11
 ---
 Les attributs ont été introduit avec **C++11**. Ils fournissent une syntaxe unifiée pour les attributs des compilateurs (```__attribute__``` sur GCC et Clang, ```__declspec()``` pour MSVC). Le standard propose également des attributs standards.
 

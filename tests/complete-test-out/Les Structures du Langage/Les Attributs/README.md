@@ -19,6 +19,7 @@
  - [A quoi correspondent les attributs [[expects]] et [[ensures]] ?](#A%20quoi%20correspondent%20les%20attributs%20expects%20et%20ensure).
 
 ## Qu'est-ce qu'un attribut ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++11**
 
 Les attributs ont été introduit avec **C++11**. Ils fournissent une syntaxe unifiée pour les attributs des compilateurs (```__attribute__``` sur GCC et Clang, ```__declspec()``` pour MSVC). Le standard propose également des attributs standards.
 
@@ -111,7 +112,7 @@ int main() {
 
 Les espaces de noms d'attributs (*attribute-namespace*) sont distincts des espaces de nom habituels et donc la directive ```using namespace``` ne s'applique pas aux attributs.
 
-Cependant, il est possible d'extraire tous les attributs d'un *attribute-namespace* à l'aide de la directive ```using``` dans la déclaration des attributs ```[[ using attribute-namespace : attribute-list ]]``` :
+Cependant, depuis **C++17**, il est possible d'extraire tous les attributs d'un *attribute-namespace* à l'aide de la directive ```using``` dans la déclaration des attributs ```[[ using attribute-namespace : attribute-list ]]``` :
 
 ```cpp
 using namespace gnu; // Ici, l'espace de nom gnu est importé.
@@ -122,6 +123,7 @@ using namespace gnu; // Ici, l'espace de nom gnu est importé.
 ```
 
 ## A quoi correspond l'attribut [[noreturn]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++11**
 
 L'attribut ```[[noreturn]]```, introduit avec **C++11**, permet de signaler qu'une fonction ne retourne pas. Il peut s'agir d'une fonction qui lève une exception dans tous les cas ou d'un appel à une fonction qui termine le programme (par exemple ```std::terminate```) ou qui change le contexte d'exécution (```std::longjmp```).
 
@@ -144,6 +146,7 @@ La liste des fonctions standards marquées ```[[noreturn]]``` sont listées sur 
  - **[EN]** [open-std.org | n2761 'General Attributes for C++'](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf).
 
 ## Qu'est-ce qu'un attribut ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++11**
 
 L'attribut ```[[carries_dependency]]``` introduit avec **C++11**, permet d'indiquer qu'une chaîne de dépendance se propage à l'intérieur ou à l'extérieur d'une fonction (avec un ```std::memory_order``` **release** ou **consume**) et qu'il est donc possible d'éviter des barrières inutiles.
 
@@ -157,6 +160,7 @@ Si il est appliqué à une fonction (comme ```[[carries_dependency]] int* foo()`
  - **[EN]** [open-std.org | n2761 'General Attributes for C++'](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf).
 
 ## A quoi correspond l'attribut [[deprecated]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++14**
 
 L'attribut ```[[deprecated]]```, depuis **C++14**, permet d'indiquer qu'un élément est déprécié et optionnellement d'en indiquer la raison.
 
@@ -195,6 +199,7 @@ struct [[deprecated]] A<void> {
  - **[EN]** [open-std.org | n3760 'General Attributes for C++''](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3760.html).
 
 ## A quoi correspond l'attribut [[fallthrough]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++17**
 
 L’attribut ```[[fallthrough]]``` (depuis **C++17**) est destiné aux instructions ```switch```. L’objectif est de préciser au compilateur qu’une absence de saut du flot de contrôle est volontaire (que ce soit avec ```break``` ou ```return```).
 
@@ -223,6 +228,7 @@ action handle_event(event my_event) {
  - **[EN]** [open-std.org | p0188r1 'Wording for [[fallthrough]] attribute.'](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0188r1.pdf).
 
 ## A quoi correspond l'attribut [[nodiscard]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++17**
 
 L’attribut ```[[nodiscard]]```, ajouté avec **C++17**, permet de refuser le droit du programmeur d’ignorer le retour d’une fonction.
 
@@ -254,6 +260,7 @@ int main() {
  - **[EN]** [cppreference.com – C++ attribute: fallthrough](https://en.cppreference.com/w/cpp/language/attributes/nodiscard).
 
 ## A quoi correspond l'attribut [[maybe_unused]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++17**
 
 L’attribut ```[[maybe_unused]]``` (depuis **C++17**), signale au compilateur qu’une variable peut être inutilisée et qu’il n’y a pas lieu de s’inquiéter. Le compilateur ne signalera pas d’avertissement si la variable est effectivement inutilisée.
 
@@ -284,6 +291,7 @@ On peut comparer ```[[maybe_unused]]``` à l’annotation **Java** ```@SupressWa
  - **[EN]** [open-std.org | p0212r1 'Wording for [[maybe_unused]] attribute.'](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0212r1.pdf).
 
 ## A quoi correspondent les attributs [[likely]] et [[unlikely]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++20**
 
 Ces deux attributs ont été introduits avec **C++20** pour permettre d’indiquer au compilateur qu’une branche est plus probable que l’autre.
 
@@ -315,6 +323,7 @@ Ces attributs sont à utiliser après une étude d'un code existant à l'aide d'
  - **[EN]** [open-std.org | p0479r0 'Attributes for Likely and Unlikely Branches'](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0479r0.html).
 
 ## A quoi correspond l'attribut [[no_unique_address]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++20**
 
 L’attribut ```[[no_unique_address]]```, ajouté avec **C++20**, est destiné à indiquer qu’une variable membre n’a pas besoin d’avoir une adresse séparée des autres membres de la classes. Cela revient à autoriser un équivalent de l’[Empty Base Optimisation](https://github.com/cpp-faq/cpp-faq/tree/develop/faq/fr-FR/.faq/404.md) pour un membre d’une classe.
 
@@ -355,6 +364,7 @@ La classe ```Y``` contient elle aussi une donnée membre de type ```Empty```, ma
  - **[EN]** [open-std.org | p0840r2 'Language support for empty objects'](http://open-std.org/JTC1/SC22/WG21/docs/papers/2018/p0840r2.html).
 
 ## A quoi correspond l'attribut [[assert]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++20**
 
 L'attribut ```[[assert]]``` fait partie des ajouts de **C++20** pour le support de la programmation par contrat. Cet attribut permet de déclarer une assertion, il peut être vu comme une version moderne de la macro **C** ```assert()```.
 
@@ -387,6 +397,7 @@ Enfin, ```[[assert]]``` permet à l'optimiseur et aux outils d'analyse statique 
  - **[EN]** [open-std.org | p0840r2 "Support for contract based programming in C++"](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0542r5.html).
 
 ## A quoi correspondent les attributs [[expects]] et [[ensures]] ?
+![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **C++20**
 
 ```[[expects]]``` et ```[[ensure]]```, ajouté avec **C++20**, sont les **contracts condition**. Ils permettent d'exprimer respectivement la précondition et la postcondition.
 

@@ -8,7 +8,9 @@ end-links:
 - descr: open-std.org | p0212r1 'Wording for [[maybe_unused]] attribute.'
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0212r1.pdf
   options:
-    prefix: EN    
+    prefix: EN
+options:
+  since: C++17
 ---
 L’attribut ```[[maybe_unused]]``` (depuis **C++17**), signale au compilateur qu’une variable peut être inutilisée et qu’il n’y a pas lieu de s’inquiéter. Le compilateur ne signalera pas d’avertissement si la variable est effectivement inutilisée.
 

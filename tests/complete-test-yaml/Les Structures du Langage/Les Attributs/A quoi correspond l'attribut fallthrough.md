@@ -9,6 +9,8 @@ end-links:
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0188r1.pdf
   options:
     prefix: EN
+options:
+  since: C++17
 ---
 L’attribut ```[[fallthrough]]``` (depuis **C++17**) est destiné aux instructions ```switch```. L’objectif est de préciser au compilateur qu’une absence de saut du flot de contrôle est volontaire (que ce soit avec ```break``` ou ```return```).
 

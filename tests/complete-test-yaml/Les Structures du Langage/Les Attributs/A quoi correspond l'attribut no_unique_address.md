@@ -8,7 +8,9 @@ end-links:
 - descr: open-std.org | p0840r2 'Language support for empty objects'
   url: http://open-std.org/JTC1/SC22/WG21/docs/papers/2018/p0840r2.html
   options:
-    prefix: EN    
+    prefix: EN   
+options:
+  since: C++20 
 ---
 L’attribut ```[[no_unique_address]]```, ajouté avec **C++20**, est destiné à indiquer qu’une variable membre n’a pas besoin d’avoir une adresse séparée des autres membres de la classes. Cela revient à autoriser un équivalent de l’[Empty Base Optimisation](https://github.com/cpp-faq/cpp-faq/tree/develop/faq/fr-FR/.faq/404.md) pour un membre d’une classe.
 

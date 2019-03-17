@@ -5,6 +5,8 @@ end-links:
   url: https://en.cppreference.com/w/cpp/language/attributes/nodiscard
   options:
     prefix: EN
+options:
+  since: C++17
 ---
 L’attribut ```[[nodiscard]]```, ajouté avec **C++17**, permet de refuser le droit du programmeur d’ignorer le retour d’une fonction.
 

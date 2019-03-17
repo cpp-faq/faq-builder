@@ -9,6 +9,10 @@ import (
 )
 
 type QuestionOptions struct {
+    SinceLanguageVersion string`yaml:"since"`
+    UntilLanguageVersion string`yaml:"until"`
+
+    InProgress bool`yaml:"in-progress"`
 }
 
 type LinkOptions struct {

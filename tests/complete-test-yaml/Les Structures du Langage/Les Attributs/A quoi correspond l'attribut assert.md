@@ -11,6 +11,8 @@ end-links:
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0542r5.html
   options:
     prefix: EN
+options:
+  since: C++20
 ---
 L'attribut ```[[assert]]``` fait partie des ajouts de **C++20** pour le support de la programmation par contrat. Cet attribut permet de déclarer une assertion, il peut être vu comme une version moderne de la macro **C** ```assert()```.
 

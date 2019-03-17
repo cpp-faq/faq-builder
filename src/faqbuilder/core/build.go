@@ -44,14 +44,26 @@ func ProcessQuestion(question *model.Question, engine *engine.Engine) (string) {
 
     ret := "## " + question.DisplayName + "\n"
 
-    path := filepath.Join(question.RootFolder, question.Name + ".md")
-    content, err := util.ExtractContent(path)
-    if err != nil {
-        engine.Warning("unable to find '" + path + "', the question '" + question.DisplayName + "' is empty.")
-        return ""
+    if question.Options.SinceLanguageVersion != "" {
+        ret += "![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **" + question.Options.SinceLanguageVersion + "**\n"
+    }
+    if question.Options.UntilLanguageVersion != "" {
+        ret += "![#f03c15](https://placehold.it/15/f03c15/000000?text=+) until **" + question.Options.UntilLanguageVersion + "**\n"
     }
 
-    ret += string(content)
+    if question.Options.InProgress {
+        ret += "**En cours d'écriture**"
+        // TODO() add link to contribution guide
+    } else {
+        path := filepath.Join(question.RootFolder, question.Name + ".md")
+        content, err := util.ExtractContent(path)
+        if err != nil {
+            engine.Warning("unable to find '" + path + "', the question '" + question.DisplayName + "' is empty.")
+            return ""
+        }
+
+        ret += string(content)
+    }
 
     // Handle end-links
     if len(question.EndLinks) > 0 {
@@ -127,7 +139,7 @@ func BuildSection(faq *model.FAQ, section *model.Section, engine *engine.Engine)
     // Copy resources folder, if exist
 
     resdir := filepath.Join(section.RootFolder, "/rcs")
-    
+
     if b, _ := util.ExistDir(resdir); b {
         err := util.CopyDir(resdir, filepath.Join(dir, "/rcs"))
         if err != nil && engine.Error("cannot copy ressources directory for section '" + section.Name + "': " + err.Error() + ".") {

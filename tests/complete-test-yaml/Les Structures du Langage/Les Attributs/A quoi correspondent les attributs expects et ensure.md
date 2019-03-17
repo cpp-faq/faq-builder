@@ -11,6 +11,8 @@ end-links:
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0542r5.html
   options:
     prefix: EN
+options:
+  since: C++20
 ---
 ```[[expects]]``` et ```[[ensure]]```, ajouté avec **C++20**, sont les **contracts condition**. Ils permettent d'exprimer respectivement la précondition et la postcondition.
 

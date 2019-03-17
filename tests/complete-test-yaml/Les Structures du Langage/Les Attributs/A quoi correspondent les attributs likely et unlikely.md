@@ -8,7 +8,9 @@ end-links:
 - descr: open-std.org | p0479r0 'Attributes for Likely and Unlikely Branches'
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0479r0.html
   options:
-    prefix: EN    
+    prefix: EN   
+options:
+  since: C++20 
 ---
 Ces deux attributs ont été introduits avec **C++20** pour permettre d’indiquer au compilateur qu’une branche est plus probable que l’autre.
 

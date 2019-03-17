@@ -9,6 +9,8 @@ end-links:
   url: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3760.html
   options:
     prefix: EN
+options:
+  since: C++14
 ---
 L'attribut ```[[deprecated]]```, depuis **C++14**, permet d'indiquer qu'un élément est déprécié et optionnellement d'en indiquer la raison.
 
