@@ -42,14 +42,16 @@ func ProcessEndLink(link model.Link) (string) {
 func ProcessQuestion(question *model.Question, engine *engine.Engine) (string) {
     engine.Debug("    generating question : " + question.Name + "'.")
 
-    ret := "## " + question.DisplayName + "\n"
+    ret := "## " + question.DisplayName
 
     if question.Options.SinceLanguageVersion != "" {
-        ret += "![#c5f015](https://placehold.it/15/c5f015/000000?text=+) since **" + question.Options.SinceLanguageVersion + "**\n"
+        ret += "\n   ![#c5f015](https://placehold.it/15/c5f015/000000?text=+) depuis **" + question.Options.SinceLanguageVersion + "**\n"
     }
     if question.Options.UntilLanguageVersion != "" {
-        ret += "![#f03c15](https://placehold.it/15/f03c15/000000?text=+) until **" + question.Options.UntilLanguageVersion + "**\n"
+        ret += "\n   ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) jusqu'à **" + question.Options.UntilLanguageVersion + "**\n"
     }
+
+    ret += "\n"
 
     if question.Options.InProgress {
         ret += "**En cours d'écriture**"
