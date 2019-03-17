@@ -126,10 +126,10 @@ func BuildSection(faq *model.FAQ, section *model.Section, engine *engine.Engine)
 
     // Copy resources folder, if exist
 
-    resdir := filepath.Join(section.RootFolder, "rsc/")
-
+    resdir := filepath.Join(section.RootFolder, "/rcs")
+    
     if b, _ := util.ExistDir(resdir); b {
-        err := util.CopyDir(resdir, filepath.Join(dir, "/res/"))
+        err := util.CopyDir(resdir, filepath.Join(dir, "/rcs"))
         if err != nil && engine.Error("cannot copy ressources directory for section '" + section.Name + "': " + err.Error() + ".") {
             return
         }
